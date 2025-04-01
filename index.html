@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT-like Interface</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f7f7f8;
+        }
+
+        .header {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e5e6;
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #e6f7ff;
+            border: 1px solid #c4e3f3;
+        }
+
+        .assistant-message {
+            align-self: flex-start;
+            background-color: #ffffff;
+            border: 1px solid #e5e5e6;
+        }
+
+        .input-area {
+            padding: 1rem;
+            border-top: 1px solid #e5e5e6;
+            background-color: #ffffff;
+        }
+
+        .input-container {
+            display: flex;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e5e5e6;
+            border-radius: 0.5rem;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        #user-input:focus {
+            border-color: #10a37f;
+        }
+
+        #send-button {
+            margin-left: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: #10a37f;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        #send-button:hover {
+            background-color: white;
+        }
+
+        .message-role {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>AI Альтушка</h1>
+</div>
+
+<div class="chat-container" id="chat-container">
+    <div class="message assistant-message">
+        <img src="capture_20250401113923731.bmp" alt="Отдыхаю с девочками">
+        <div class="message-role">AI Альттушка</div>
+        <div class="message-content">Привет! Я ваша персональная Альтушка. Чем могу помочь?</div>
+    </div>
+</div>
+
+<div class="input-area">
+    <div class="input-container">
+        <input width="100px" type="text" id="user-input" placeholder="Вводи, что тебе там надо, котик ≽^•⩊•^≼" autofocus>
+        <button id="send-button">Отправить</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        function addMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}-message`;
+
+            const roleDiv = document.createElement('div');
+            roleDiv.className = 'message-role';
+            roleDiv.textContent = role === 'user' ? 'Вы' : 'AI Ватрушка';
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+
+            messageDiv.appendChild(roleDiv);
+            messageDiv.appendChild(contentDiv);
+
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage('user', message);
+                userInput.value = '';
+
+                // Имитация ответа AI (в реальном приложении здесь был бы запрос к API)
+                setTimeout(() => {
+                    addMessage('assistant', `Это ответ на: "${message}". В реальном приложении здесь был бы ответ от AI.`);
+                }, 1000);
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+
+        userInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    });
+</script>
+</body>
+</html>
